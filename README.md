@@ -1,90 +1,100 @@
 # MODUS — AI Agent Registry
 
-**Catálogo pessoal de agentes de Inteligência Artificial**, desenvolvido em linguagem C como projeto do **PIM II** (Projeto Integrado Multidisciplinar) do curso de **CST em Análise e Desenvolvimento de Sistemas — UNIP, 2026/2 — Equipe 7**.
+**Catálogo pessoal de agentes de Inteligência Artificial**, desenvolvido em linguagem C como **PIM II** (Projeto Integrado Multidisciplinar) do curso de **CST em Análise e Desenvolvimento de Sistemas — UNIP Ribeirão Preto, 2026/2**.
 
 ---
 
 ## Sobre o projeto
 
-Hoje as empresas e os usuários criam diversos "agentes de IA" — configurações com um papel específico (tutor de estudos, assistente de e-mails, crítico de filmes etc.), cada um com seu nome, suas instruções (prompt) e sua finalidade. Na prática, esses prompts e configurações acabam espalhados em conversas e ferramentas, difíceis de localizar e reutilizar.
+Quem usa assistentes de IA cria instruções (prompts) que funcionam bem, mas elas ficam espalhadas em históricos de conversa e anotações, são reescritas a cada uso e não há como saber qual versão foi a melhor. O **MODUS** resolve isso com um catálogo em console no qual o usuário cadastra, lista, busca, edita e exclui agentes de IA, cada um com ID permanente, nome, prompt, categoria, tags e nota.
 
-O **MODUS** resolve esse problema oferecendo um catálogo centralizado onde o usuário pode cadastrar, organizar, consultar e gerenciar seus agentes de IA a partir de um programa de console.
-
-No MVP deste PIM, o foco é o **gerenciamento das configurações** dos agentes. A execução real da IA por uma plataforma externa está fora do escopo.
+O MVP gerencia as **configurações** dos agentes; a execução real da IA está fora do escopo.
 
 ## Funcionalidades
 
-### Implementadas
-- Boas-vindas personalizadas com o nome do usuário
-- Menu principal interativo (console)
-- **Cadastrar agente** — nome, prompt/instruções, categoria, tags e nota (0 a 5), com *preview* do agente ao final
-- **Listar agentes** cadastrados
-- **Buscar agente** por nome ou parte do nome (busca parcial)
-- Validação da nota (apenas inteiros de 0 a 5)
-- Controle do limite de 50 agentes
+- **Cadastro progressivo com preview**: nome, prompt, categoria, tags e nota; o agente só é salvo após a confirmação, e cancelar não consome ID.
+- **Listagem** dos agentes ativos (ID, nome, nota e categoria).
+- **Busca** por ID (mostra todos os dados), por nome, por categoria ou por tag (busca parcial, sem diferenciar maiúsculas de minúsculas).
+- **Edição** campo a campo, mantendo o ID.
+- **Exclusão lógica** com confirmação: o agente sai das listagens, mas o ID nunca é reaproveitado.
+- **Relatório por categoria** (diferencial do projeto): quantidade de agentes ativos e nota média de cada categoria.
+- **Persistência em arquivo**: os dados são gravados em `modus_dados.txt` a cada alteração e recarregados ao abrir o programa.
 
-### Em desenvolvimento
-- **Editar agente** (opção 4 do menu)
-- **Excluir agente** — exclusão lógica (opção 5 do menu)
-- **Persistência em arquivo** — salvar e recuperar os agentes ao reabrir o programa
-- Validação de nome único (impedir cadastros duplicados)
-- Categorias predefinidas (atualmente a categoria é texto livre)
-
-## Especificações técnicas
-
-Conforme os requisitos do PIM, cada agente é armazenado em **vetores paralelos** (a mesma posição de índice guarda os dados de um mesmo agente):
+### Regras principais
 
 | Campo | Regra |
 |---|---|
-| ID | Identificador exibido na listagem/busca |
-| Nome | Até 80 caracteres (`TAM_CARAC`) |
-| Prompt/instruções | Até 500 caracteres (`CARACTERES`) |
-| Categoria | Texto da área do agente |
-| Tags | Palavras-chave para busca |
-| Nota | Valor inteiro entre 0 e 5 |
+| ID | Gerado automaticamente, permanente e nunca reaproveitado |
+| Nome | Obrigatório, até 50 caracteres, sem repetição entre agentes ativos |
+| Prompt | Obrigatório, até 500 caracteres |
+| Categoria | Uma entre 7: Estudos, Culinária, Filmes e Séries, Notícias, Trabalho, Organização, Outros |
+| Tags | De 0 a 5 por agente, até 20 caracteres cada |
+| Nota | Inteiro de 0 a 5 |
+| Limite | 50 agentes ativos |
 
-- Limite de **50 agentes** (`MAX_AGENTES`)
-- Uso de estruturas de controle (`do/while`, `switch/case`, `for`), funções e manipulação de strings da biblioteca padrão do C
-- Leitura de texto com `fgets` e limpeza de buffer, evitando estouro de entrada
+Os dados ficam em **vetores paralelos**: a mesma posição representa o mesmo agente em todos os vetores.
 
 ## Como compilar e executar
 
-É necessário um compilador C (ex.: **GCC**).
+É necessário um compilador C, como o **GCC**. O programa usa apenas a biblioteca padrão.
 
-**Linux / macOS:**
+**Linux / macOS**
+
 ```bash
-gcc modus.c -o modus
+gcc PIM_Final.c -o modus
 ./modus
 ```
 
-**Windows (MinGW):**
+**Windows (MinGW)**
+
 ```bash
-gcc modus.c -o modus.exe
+gcc PIM_Final.c -o modus.exe
 modus.exe
 ```
+
+Na primeira execução o catálogo começa vazio; o arquivo `modus_dados.txt` é criado na primeira gravação, na mesma pasta do programa.
 
 ## Estrutura do repositório
 
 ```
 .
-├── modus.c      # Código-fonte do catálogo (programa principal)
-└── README.md    # Este arquivo
+├── PIM_Final.c                  # Código-fonte completo e comentado do programa
+├── MODUS_SCRIPT_SQL_1.4.sql     # Banco MySQL 8: criação, dados de exemplo e consultas
+├── diagramas/
+│   ├── DER_MODUS.png            # Diagrama Entidade-Relacionamento
+│   ├── rede_local_MODUS.png     # Diagrama da rede local proposta
+│   └── rede_local_MODUS.svg     # Mesmo diagrama em formato vetorial
+└── README.md
 ```
 
-## Equipe 7
+## Banco de dados
 
-| Integrante | Frente principal |
-|---|---|
-| Natan + Daniel | Desenvolvimento em C |
-| Mello | Banco de Dados / SQL |
-| Pablo | Redes e Infraestrutura |
-| Rodrigo | Engenharia de Software Ágil / Requisitos |
-| Bernardo | ABNT / Documentação |
-| João | QA / Testes / Manual |
+O programa persiste os dados em arquivo, como pede o PIM. O script `MODUS_SCRIPT_SQL_1.4.sql` traz a modelagem relacional equivalente (tabelas `categoria`, `agente`, `tag` e `agente_tag`), com dados de exemplo e consultas que reproduzem as funções do programa, inclusive o relatório por categoria. Para rodar em MySQL 8:
+
+```bash
+mysql -u usuario -p < MODUS_SCRIPT_SQL_1.4.sql
+```
+
+## Limitações conhecidas
+
+- Testado apenas em Linux com GCC.
+- Cancelar um cadastro iniciado sobre a vaga de um agente excluído sobrescreve os dados daquele registro inativo.
+- Versão de usuário único, sem login; o uso em rede é uma proposta descrita no trabalho escrito.
+
+## Equipe
+
+| Integrante | RA | Frente principal |
+|---|---|---|
+| Bernardo Moreira Paz | R4180F0 | Normalização ABNT e documentação |
+| Daniel José Medeiros | H00CCG0 | Programação em C |
+| João Pedro Augusto | H99CDA8 | Redes de computadores |
+| João Vitor dos Santos Mello | H007GB6 | Banco de dados e SQL |
+| Natan Miguel Gafo Massuia | H006DG9 | Programação em C e testes |
+| Rodrigo Rezende de Quadros | H996546 | Engenharia de Software Ágil e verificação |
 
 ## Disciplinas contempladas
 
-Engenharia de Software Ágil · Modelagem de Banco de Dados e NoSQL · Redes de Computadores e Sistemas Distribuídos · Programação Estruturada em C · Inteligência Artificial, Pesquisa Tecnológica e Inovação.
+Engenharia de Software Ágil · Modelagem de Banco de Dados e NoSQL · Redes de Computadores e Sistemas Distribuídos · Programação Estruturada em C · Inteligência Artificial, Pesquisa Tecnológica e Inovação · Direitos Humanos · Educação Ambiental.
 
 ---
 
