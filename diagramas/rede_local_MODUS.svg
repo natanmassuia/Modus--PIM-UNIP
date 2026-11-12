@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="710" viewBox="0 0 1400 710" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1400" height="710" fill="#ffffff"/>
+  <defs>
+    <style>
+      .box { fill:#ffffff; stroke:#333333; stroke-width:2; }
+      .infra { fill:#eef2f7; stroke:#333333; stroke-width:2; }
+      .srv { fill:#e6f0e6; stroke:#333333; stroke-width:2; }
+      .cli { fill:#fbf6e6; stroke:#333333; stroke-width:2; }
+      .t1 { font-size:22px; font-weight:bold; fill:#111; text-anchor:middle; }
+      .t2 { font-size:18px; fill:#222; text-anchor:middle; }
+      .t3 { font-size:17px; fill:#444; text-anchor:middle; }
+      .cable { stroke:#333; stroke-width:3; fill:none; }
+      .wifi { stroke:#333; stroke-width:3; fill:none; stroke-dasharray:10 8; }
+    </style>
+  </defs>
+
+  <!-- Internet -->
+  <ellipse cx="700" cy="60" rx="120" ry="38" class="box"/>
+  <text x="700" y="68" class="t1">Internet</text>
+  <line x1="700" y1="98" x2="700" y2="140" class="cable"/>
+
+  <!-- Roteador -->
+  <rect x="560" y="140" width="280" height="80" rx="8" class="infra"/>
+  <text x="700" y="172" class="t1">Roteador / firewall</text>
+  <text x="700" y="200" class="t2">rt-modus · 192.168.10.1 · DHCP</text>
+  <line x1="700" y1="220" x2="700" y2="270" class="cable"/>
+
+  <!-- Switch -->
+  <rect x="560" y="270" width="280" height="80" rx="8" class="infra"/>
+  <text x="700" y="302" class="t1">Switch gerenciável</text>
+  <text x="700" y="330" class="t2">sw-modus · 192.168.10.2</text>
+
+  <!-- barramento de cabos -->
+  <line x1="700" y1="350" x2="700" y2="400" class="cable"/>
+  <line x1="150" y1="400" x2="1080" y2="400" class="cable"/>
+  <line x1="150" y1="400" x2="150" y2="450" class="cable"/>
+  <line x1="460" y1="400" x2="460" y2="450" class="cable"/>
+  <line x1="770" y1="400" x2="770" y2="450" class="cable"/>
+  <line x1="1080" y1="400" x2="1080" y2="450" class="cable"/>
+
+  <!-- Servidor -->
+  <rect x="30" y="450" width="240" height="110" rx="8" class="srv"/>
+  <text x="150" y="485" class="t1">Servidor MODUS</text>
+  <text x="150" y="513" class="t2">srv-modus</text>
+  <text x="150" y="540" class="t2">192.168.10.10 (estático)</text>
+
+  <!-- NAS -->
+  <rect x="340" y="450" width="240" height="110" rx="8" class="srv"/>
+  <text x="460" y="485" class="t1">NAS de backup</text>
+  <text x="460" y="513" class="t2">nas-modus</text>
+  <text x="460" y="540" class="t2">192.168.10.11 (estático)</text>
+
+  <!-- PCs -->
+  <rect x="650" y="450" width="240" height="110" rx="8" class="cli"/>
+  <text x="770" y="485" class="t1">PC01 a PC06</text>
+  <text x="770" y="513" class="t2">cabo Ethernet</text>
+  <text x="770" y="540" class="t2">DHCP .100 a .199</text>
+
+  <!-- AP -->
+  <rect x="960" y="450" width="240" height="110" rx="8" class="infra"/>
+  <text x="1080" y="485" class="t1">Ponto de acesso</text>
+  <text x="1080" y="513" class="t2">ap-modus</text>
+  <text x="1080" y="540" class="t2">192.168.10.3 (estático)</text>
+
+  <!-- Wi-Fi para notebooks -->
+  <line x1="1200" y1="505" x2="1240" y2="505" class="wifi"/>
+  <rect x="1240" y="450" width="140" height="110" rx="8" class="cli"/>
+  <text x="1310" y="485" class="t1">Notebooks</text>
+  <text x="1310" y="513" class="t2">2 · Wi-Fi</text>
+  <text x="1310" y="540" class="t2">DHCP</text>
+
+  <!-- rodapé -->
+  <text x="700" y="625" class="t2">Rede 192.168.10.0/24 · máscara 255.255.255.0 · gateway 192.168.10.1</text>
+
+  <!-- legenda -->
+  <rect x="220" y="660" width="34" height="22" class="infra"/>
+  <text x="340" y="678" class="t3">equipamento de rede</text>
+  <rect x="450" y="660" width="34" height="22" class="srv"/>
+  <text x="590" y="678" class="t3">servidores (IP estático)</text>
+  <rect x="700" y="660" width="34" height="22" class="cli"/>
+  <text x="835" y="678" class="t3">estações (IP por DHCP)</text>
+  <line x1="950" y1="671" x2="1000" y2="671" class="cable"/>
+  <text x="1035" y="678" class="t3">cabo</text>
+  <line x1="1080" y1="671" x2="1130" y2="671" class="wifi"/>
+  <text x="1170" y="678" class="t3">sem fio</text>
+</svg>
