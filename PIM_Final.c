@@ -4,8 +4,8 @@
 #include <ctype.h>
 
 #define MAX_AGENTES    50
-#define TAM_NOME       81    // 80 caracteres + '\0'
-#define TAM_PROMPT     1001  // 1000 caracteres + '\0'
+#define TAM_NOME       51    // 50 caracteres + '\0'
+#define TAM_PROMPT     501   // 500 caracteres + '\0'
 #define TAM_CATEGORIA  31
 #define TAM_TAGS       105   // 5 tags de 20 caracteres + 4 vírgulas + '\0'
 #define QTD_CATEGORIAS 7
@@ -44,9 +44,6 @@ void listarAgentes(void);
 void buscarAgente(void);
 void editarAgente(void);
 void excluirAgente(void);
-void editarCampos(int pos);
-void confirmarExclusao(int pos);
-void acoesAgente(int pos);
 void relatorioPorCategoria(void);
 void salvarDados(void);
 void carregarDados(void);
@@ -193,7 +190,7 @@ void lerCampo(int p, int campo) {
 
     if (campo == 1) {
         do {
-            printf("\nNome do agente (até 80 caracteres): ");
+            printf("\nNome do agente (até 50 caracteres): ");
             lerTexto(nome[p], TAM_NOME);
             if (nome[p][0] == '\0') {
                 printf("O nome é obrigatório.\n");
@@ -204,7 +201,7 @@ void lerCampo(int p, int campo) {
         } while (nome[p][0] == '\0');
     } else if (campo == 2) {
         do {
-            printf("\nPrompt do agente (até 1000 caracteres): ");
+            printf("\nPrompt do agente (até 500 caracteres): ");
             lerTexto(promptIA[p], TAM_PROMPT);
             if (promptIA[p][0] == '\0') {
                 printf("O prompt é obrigatório.\n");
@@ -249,8 +246,6 @@ void lerCampo(int p, int campo) {
 
 void cadastrarAgente(void) {
     int i, p = -1, op;
-    int idAnt = 0, qtdTagsAnt = 0, notaAnt = 0;
-    char nomeAnt[TAM_NOME], promptAnt[TAM_PROMPT], categoriaAnt[TAM_CATEGORIA], tagsAnt[TAM_TAGS];
 
     if (contarAtivos() >= MAX_AGENTES) {
         printf("\nLimite de %d agentes atingido! Exclua um agente para liberar vaga.\n", MAX_AGENTES);
@@ -265,17 +260,6 @@ void cadastrarAgente(void) {
     }
     if (p == -1) {
         p = total;
-    }
-
-    // se a vaga for de um agente excluído, guarda os dados dele para devolver caso o cadastro seja cancelado
-    if (p < total) {
-        idAnt = id[p];
-        strcpy(nomeAnt, nome[p]);
-        strcpy(promptAnt, promptIA[p]);
-        strcpy(categoriaAnt, categoria[p]);
-        strcpy(tagsAnt, tags[p]);
-        qtdTagsAnt = qtdTags[p];
-        notaAnt = nota[p];
     }
 
     printf("\n--- CADASTRO DE AGENTE ---\n");
@@ -293,15 +277,6 @@ void cadastrarAgente(void) {
     } while (op != 0 && op != 1);
 
     if (op == 0) {
-        if (p < total) { // devolve os dados do registro excluído que ocupava a vaga
-            id[p] = idAnt;
-            strcpy(nome[p], nomeAnt);
-            strcpy(promptIA[p], promptAnt);
-            strcpy(categoria[p], categoriaAnt);
-            strcpy(tags[p], tagsAnt);
-            qtdTags[p] = qtdTagsAnt;
-            nota[p] = notaAnt;
-        }
         printf("Cadastro cancelado.\n");
         return;
     }
@@ -330,8 +305,6 @@ void listarAgentes(void) {
     }
 }
 
-/* Busca por ID, nome, categoria ou tag. Ao localizar um agente, mostra todos
-   os dados e oferece Editar, Excluir ou Voltar (função acoesAgente). */
 void buscarAgente(void) {
     int i, op, pos, achou = 0;
     char termo[TAM_NOME];
@@ -341,18 +314,16 @@ void buscarAgente(void) {
         return;
     }
 
-    printf("\nBuscar por: 1. ID  2. Nome  3. Categoria  4. Tag  0. Voltar\n> ");
+    printf("\nBuscar por: 1. ID  2. Nome  3. Categoria  4. Tag\n> ");
     op = lerInteiro();
 
-    if (op == 0) {
-        return;
-    } else if (op == 1) {
+    if (op == 1) {
         printf("Digite o ID: ");
         pos = buscarPorId(lerInteiro());
         if (pos == -1) {
             printf("Agente não encontrado.\n");
         } else {
-            acoesAgente(pos);
+            mostrarAgente(pos);
         }
     } else if (op >= 2 && op <= 4) {
         printf("Digite o texto da busca: ");
@@ -364,87 +335,20 @@ void buscarAgente(void) {
             if ((op == 2 && contemParcial(nome[i], termo)) ||
                 (op == 3 && contemParcial(categoria[i], termo)) ||
                 (op == 4 && contemParcial(tags[i], termo))) {
-                if (achou == 0) {
-                    printf("\n%-5s %-30s %-6s %s\n", "ID", "Nome", "Nota", "Categoria");
-                }
                 printf("%-5d %-30s %d/5    %s\n", id[i], nome[i], nota[i], categoria[i]);
                 achou = 1;
             }
         }
         if (achou == 0) {
             printf("Nenhum agente encontrado.\n");
-            return;
-        }
-        // o usuário escolhe um dos resultados para ver todos os dados
-        printf("\nDigite o ID para abrir o agente (0 para voltar): ");
-        op = lerInteiro();
-        if (op > 0) {
-            pos = buscarPorId(op);
-            if (pos == -1) {
-                printf("Agente não encontrado.\n");
-            } else {
-                acoesAgente(pos);
-            }
         }
     } else {
         printf("Opção inválida.\n");
     }
 }
 
-/* Mostra todos os dados do agente da posição pos e oferece as ações sobre ele */
-void acoesAgente(int pos) {
-    int op;
-
-    mostrarAgente(pos);
-    do {
-        printf("\n1. Editar  2. Excluir  0. Voltar ao menu\n> ");
-        op = lerInteiro();
-        if (op == 1) {
-            editarCampos(pos);
-        } else if (op == 2) {
-            confirmarExclusao(pos);
-            if (ativo[pos] == 0) {
-                return; // agente excluído: não há mais o que mostrar
-            }
-        } else if (op != 0) {
-            printf("Opção inválida.\n");
-        }
-    } while (op != 0);
-}
-
-/* Edição campo a campo do agente da posição pos; o ID não muda */
-void editarCampos(int pos) {
-    int op;
-
-    do {
-        printf("\nEditar: 1. Nome  2. Prompt  3. Categoria  4. Tags  5. Nota  0. Voltar\n> ");
-        op = lerInteiro();
-        if (op >= 1 && op <= 5) {
-            lerCampo(pos, op);
-            salvarDados();
-            printf("Campo atualizado!\n");
-            mostrarAgente(pos);
-        }
-    } while (op != 0);
-}
-
-/* Pede confirmação e faz a exclusão lógica do agente da posição pos */
-void confirmarExclusao(int pos) {
-    int op;
-
-    printf("Excluir \"%s\"? (1 = Sim, 0 = Não): ", nome[pos]);
-    op = lerInteiro();
-    if (op == 1) {
-        ativo[pos] = 0; // exclusão lógica: nada é deslocado nos vetores
-        salvarDados();
-        printf("Agente excluído. O ID %d não será usado de novo.\n", id[pos]);
-    } else {
-        printf("Exclusão cancelada.\n");
-    }
-}
-
 void editarAgente(void) {
-    int pos;
+    int pos, op;
 
     if (contarAtivos() == 0) {
         printf("\nNenhum agente cadastrado para editar.\n");
@@ -458,12 +362,21 @@ void editarAgente(void) {
         printf("Agente não encontrado.\n");
         return;
     }
-    mostrarAgente(pos);
-    editarCampos(pos);
+
+    do {
+        mostrarAgente(pos);
+        printf("\nEditar: 1. Nome  2. Prompt  3. Categoria  4. Tags  5. Nota  0. Voltar\n> ");
+        op = lerInteiro();
+        if (op >= 1 && op <= 5) {
+            lerCampo(pos, op);
+            salvarDados();
+            printf("Campo atualizado!\n");
+        }
+    } while (op != 0);
 }
 
 void excluirAgente(void) {
-    int pos;
+    int pos, op;
 
     if (contarAtivos() == 0) {
         printf("\nNenhum agente cadastrado para excluir.\n");
@@ -477,7 +390,16 @@ void excluirAgente(void) {
         printf("Agente não encontrado.\n");
         return;
     }
-    confirmarExclusao(pos);
+
+    printf("Excluir \"%s\"? (1 = Sim, 0 = Não): ", nome[pos]);
+    op = lerInteiro();
+    if (op == 1) {
+        ativo[pos] = 0; // exclusão lógica: nada é deslocado nos vetores
+        salvarDados();
+        printf("Agente excluído. O ID %d não será usado de novo.\n", id[pos]);
+    } else {
+        printf("Exclusão cancelada.\n");
+    }
 }
 
 void relatorioPorCategoria(void) {
@@ -528,7 +450,7 @@ void salvarDados(void) {
 
 void carregarDados(void) {
     int i;
-    char linha[TAM_PROMPT + 2]; // maior que qualquer campo, para a linha caber inteira
+    char linha[600]; // maior que qualquer campo, para a linha caber inteira
     FILE *arq = fopen(ARQUIVO, "r");
 
     if (arq == NULL) {
