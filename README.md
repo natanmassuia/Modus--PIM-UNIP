@@ -87,10 +87,8 @@ mysql -u usuario -p < MODUS_SCRIPT_SQL_1.5.sql
 |---|---|---|
 | Bernardo Moreira Paz | R4180F0 | Normalização ABNT e documentação |
 | Daniel José Medeiros | H00CCG0 | Programação em C |
-| João Pedro Augusto | H99CDA8 | Redes de computadores |
-| João Vitor dos Santos Mello | H007GB6 | Banco de dados e SQL |
-| Natan Miguel Gafo Massuia | H006DG9 | Programação em C e testes |
-| Rodrigo Rezende de Quadros | H996546 | Engenharia de Software Ágil e verificação |
+| João Vitor dos Santos Mello | H007GB6 | Redes de computadores, banco de dados e SQL |
+| Natan Miguel Gafo Massuia | H006DG9 | Programação em C, Engenharia de Software Ágil, testes e integração do trabalho |
 
 ## Disciplinas contempladas
 
