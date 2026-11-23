@@ -15,11 +15,11 @@ CREATE TABLE categoria (
 CREATE TABLE agente (
   id_agente      INT AUTO_INCREMENT PRIMARY KEY,
   id_categoria   INT NOT NULL,
-  nome           VARCHAR(50)  NOT NULL,
-  prompt         VARCHAR(500) NOT NULL,
+  nome           VARCHAR(80)   NOT NULL,
+  prompt         VARCHAR(1000) NOT NULL,
   nota           INT NOT NULL,
   ativo          TINYINT NOT NULL DEFAULT 1,
-  nome_ativo     VARCHAR(50) GENERATED ALWAYS AS
+  nome_ativo     VARCHAR(80) GENERATED ALWAYS AS
                  (CASE WHEN ativo = 1 THEN nome END) STORED,
   CONSTRAINT ck_agente_nome   CHECK (TRIM(nome) <> ''),
   CONSTRAINT ck_agente_prompt CHECK (TRIM(prompt) <> ''),

@@ -59,7 +59,7 @@ Na primeira execução o catálogo começa vazio; o arquivo `modus_dados.txt` é
 ```
 .
 ├── PIM_Final.c                  # Código-fonte completo e comentado do programa
-├── MODUS_SCRIPT_SQL_1.4.sql     # Banco MySQL 8: criação, dados de exemplo e consultas
+├── MODUS_SCRIPT_SQL_1.5.sql     # Banco MySQL 8: criação, dados de exemplo e consultas
 ├── diagramas/
 │   ├── DER_MODUS.png            # Diagrama Entidade-Relacionamento
 │   ├── rede_local_MODUS.png     # Diagrama da rede local proposta
@@ -69,10 +69,10 @@ Na primeira execução o catálogo começa vazio; o arquivo `modus_dados.txt` é
 
 ## Banco de dados
 
-O programa persiste os dados em arquivo, como pede o PIM. O script `MODUS_SCRIPT_SQL_1.4.sql` traz a modelagem relacional equivalente (tabelas `categoria`, `agente`, `tag` e `agente_tag`), com dados de exemplo e consultas que reproduzem as funções do programa, inclusive o relatório por categoria. Para rodar em MySQL 8:
+O programa persiste os dados em arquivo, como pede o PIM. O script `MODUS_SCRIPT_SQL_1.5.sql` traz a modelagem relacional equivalente (tabelas `categoria`, `agente`, `tag` e `agente_tag`), com dados de exemplo e consultas que reproduzem as funções do programa, inclusive o relatório por categoria. Para rodar em MySQL 8:
 
 ```bash
-mysql -u usuario -p < MODUS_SCRIPT_SQL_1.4.sql
+mysql -u usuario -p < MODUS_SCRIPT_SQL_1.5.sql
 ```
 
 ## Limitações conhecidas
