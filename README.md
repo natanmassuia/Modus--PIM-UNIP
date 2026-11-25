@@ -54,12 +54,18 @@ modus.exe
 
 Na primeira execução o catálogo começa vazio; o arquivo `modus_dados.txt` é criado na primeira gravação, na mesma pasta do programa.
 
+### Dados de exemplo
+
+A pasta `exemplos/` tem um `modus_dados.txt` com 3 agentes prontos (Tutor de C, Chef Rápido e Resumo do Dia). Para testar o programa já com dados, copie esse arquivo para a mesma pasta do executável antes de abrir o programa. Sem ele, o catálogo começa vazio.
+
 ## Estrutura do repositório
 
 ```
 .
 ├── PIM_Final.c                  # Código-fonte completo e comentado do programa
 ├── MODUS_SCRIPT_SQL_1.5.sql     # Banco MySQL 8: criação, dados de exemplo e consultas
+├── exemplos/
+│   └── modus_dados.txt          # 3 agentes de exemplo para testar o programa
 ├── diagramas/
 │   ├── DER_MODUS.png            # Diagrama Entidade-Relacionamento
 │   ├── rede_local_MODUS.png     # Diagrama da rede local proposta

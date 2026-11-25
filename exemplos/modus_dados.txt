@@ -1,0 +1,26 @@
+4
+3
+1
+1
+Tutor de C
+Explique código em C passo a passo, com exemplos simples.
+Estudos
+c,estudos
+2
+5
+2
+1
+Chef Rápido
+Sugira receitas rápidas com os ingredientes que eu informar.
+Culinária
+receitas
+1
+4
+3
+1
+Resumo do Dia
+Resuma as principais notícias do dia em cinco tópicos.
+Notícias
+noticias
+1
+4
