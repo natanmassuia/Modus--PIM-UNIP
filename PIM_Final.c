@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 O programa guarda até 50 agentes de IA (nome, prompt, categoria,
 tags e nota) em vetores paralelos e grava tudo em um arquivo de
