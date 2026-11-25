@@ -370,7 +370,13 @@ void buscarAgente(void) {
         return;
     }
 
-    printf("\nBuscar por: 1. ID  2. Nome  3. Categoria  4. Tag  0. Voltar\n> ");
+    printf("\n--- BUSCAR AGENTE ---\n");
+    printf("1. Por ID\n");
+    printf("2. Por nome\n");
+    printf("3. Por categoria\n");
+    printf("4. Por tag\n");
+    printf("0. Voltar\n");
+    printf("Opção: ");
     op = lerInteiro();
 
     if (op == 0) {
@@ -432,7 +438,10 @@ void acoesAgente(int pos) {
 
     mostrarAgente(pos); // a ficha aparece uma vez só
     do {
-        printf("\n1. Editar  2. Excluir  0. Voltar ao menu\n> ");
+        printf("\n1. Editar\n");
+        printf("2. Excluir\n");
+        printf("0. Voltar ao menu\n");
+        printf("Opção: ");
         op = lerInteiro();
 
         if (op == 1) {
@@ -454,7 +463,14 @@ void editarCampos(int pos) {
     int op;
 
     do {
-        printf("\nEditar: 1. Nome  2. Prompt  3. Categoria  4. Tags  5. Nota  0. Voltar\n> ");
+        printf("\n--- EDITAR ---\n");
+        printf("1. Nome\n");
+        printf("2. Prompt\n");
+        printf("3. Categoria\n");
+        printf("4. Tags\n");
+        printf("5. Nota\n");
+        printf("0. Voltar\n");
+        printf("Opção: ");
         op = lerInteiro();
         if (op >= 1 && op <= 5) {
             lerCampo(pos, op);
